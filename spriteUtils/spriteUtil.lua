@@ -1,3 +1,6 @@
+--cold hand
+--copyright Hampus Huledal
+
 local SpriteUtil = {}
 
 function SpriteUtil.LoadSheet(anImagePath, aSheetDataPath)
