@@ -6,13 +6,6 @@ local menuSystem = require("TextMenu.textMenu")
 function love.load(args, uargs)
     print("load")
 
-    local menuTable = {}
-    menuTable.testText = "test"
-    menuTable.testNumber = 42
-    menuTable.testFunctionQuit = function()
-        love.event.quit()
-    end
-
     menuSystem:CreateNewMenu("testMenu", menuTable, 100, 100, false)
 
     print("Cold Hand started \n copyright Hampus Huledal")
@@ -36,6 +29,14 @@ function love.load(args, uargs)
     end
 
     print("testing debug")
+
+    local menuTable = {}
+        menuTable.testText = "test"
+        menuTable.testNumber = 42
+        menuTable.testFunctionQuit = function()
+        love.event.quit()
+    end
+
 end
 
 function love.update(deltaTime)
