@@ -3,7 +3,7 @@
 
 local menuSystem = require("TextMenu.textMenu")
 
-function love.load(args)
+function love.load(args, uargs)
     print("load")
 
     local menuTable = {}
@@ -14,7 +14,7 @@ function love.load(args)
     end
 
     menuSystem:CreateNewMenu("testMenu", menuTable, 100, 100, false)
-function love.load(args, uargs)
+
     print("Cold Hand started \n copyright Hampus Huledal")
     print("Args: ")
     --parse args
