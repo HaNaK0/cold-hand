@@ -2,15 +2,14 @@
 --copyright Hampus Huledal
 
 local menuSystem = require("TextMenu.textMenu")
+local miscUtil = require("Util.miscUtil")
 
 function love.load(args, uargs)
     print("load")
 
-
-
-    print("Cold Hand started \n copyright Hampus Huledal")
+    print("Cold Hand started \n Copyright Hampus Huledal")
     print("Args: ")
-    --parse args
+    --parse args and make table readonly
     --TODO: add better parsing taking arguments and checking for more
     local parsedArgs = {}
     for index, value in ipairs(args) 
@@ -18,20 +17,21 @@ function love.load(args, uargs)
         print(index .. ": " .. value)
         parsedArgs[value] = true;  
     end
+    global_Args = miscUtil.makeReadOnly(parsedArgs)
     
     --This is if you are using visual studio code and want to debug your code using the Lua Debugger(https://marketplace.visualstudio.com/items?itemName=devCAT.lua-debug).
-    if parsedArgs["-VSCodeDebug"] 
+    if global_Args["-VSCodeDebug"]
     then
         local json = require 'Json.dkjson'
-        local debuggee = require 'Debugging.vscode-debuggee'
-        local startResult, breakerType = debuggee.start(json)
+        local global_Debuggee = require 'Debugging.vscode-debuggee'
+        local startResult, breakerType = global_Debuggee.start(json)
         print('debuggee start ->', startResult, breakerType)
     end
 
     local menuTable = {}
-        menuTable.testText = "test"
-        menuTable.testNumber = 42
-        menuTable.testFunctionQuit = function()
+    menuTable.testText = "test"
+    menuTable.testNumber = 42
+    menuTable.testFunctionQuit = function()
         love.event.quit()
     end
 
@@ -39,6 +39,7 @@ function love.load(args, uargs)
 end
 
 function love.update(deltaTime)
+    if global_Debuggee then global_Debuggee.poll() end
 end
 
 function love.keypressed(key, scancode, isrepeat )
@@ -48,6 +49,9 @@ function love.keypressed(key, scancode, isrepeat )
     elseif key == "down"
     then
         menuSystem:Down()
+    elseif key == "return"
+    then
+        menuSystem:Activate()
     end
 end
 

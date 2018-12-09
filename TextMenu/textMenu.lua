@@ -61,21 +61,21 @@ end
 function menuSystem:CreateNewMenu(name, menuTable, x, y, letThrough)
     assert(type(name) == "string", "TXTM1: TextMenuSystem ERROR menu name need to be string")
     assert(type(menuTable) == "table", "TXTM2: TextMenuSystem ERROR second argument should be a table with data and functions that will represent the menu, and use the array to order it")
-    if letThrough ==  nil then letThrough = false end
+    letThrough = letThrough or false
 
     local menu = {}
 
-    if #menuTable > 0 
+    if #menuTable == 0 
     then
-        menu.size = #menuTable
-    else
         local count = 0;
         for key, value in pairs(menuTable)
         do
+            menuTable[count] = key
             count = count + 1
         end
-        menu.size = count
     end
+
+    menu.size = #menuTable
 
     menu.menuTable = menuTable
     menu.position = { x = x, y = y}
@@ -103,7 +103,7 @@ end
 
 function menuSystem:Draw(offset)
     if self.stack.top < 1 then return end
-    if offset == nil then offset = 0 end
+    offset = offset or 0
 
     assert(offset < self.stack.top, "TXTM3: offset is larger than ammount of menues, can't draw negative menues")
 
@@ -151,29 +151,6 @@ function menuSystem:Draw(offset)
             end
 
             self:WritrLine(outputString, currentPosition.x, currentPosition.y, index)
-        end
-    else
-        local index = 1
-        for key, value in pairs(currentMenu.menuTable)
-        do
-            local outputString = ""
-            
-            outputString = outputString .. key
-
-            local currentValue = value
-            if type(currentValue) == "number" or type(currentValue) == "string" 
-            then
-                outputString = outputString .. " : " .. currentValue
-            end
-
-            if index == currentMenu.cursor 
-            then
-                outputString = outputString .. " " .. self.style.cursor;
-            end
-
-            self:WriteLine(outputString, currentPosition.x, currentPosition.y, index)
-
-            index = index + 1
         end
     end
 
@@ -223,6 +200,14 @@ end
 --------------------------------------------------------------------------------
 
 function menuSystem:Activate()
+    local currentMenu = self:getTopOfMenuStack()
+
+    local currentEntry = currentMenu.menuTable[currentMenu.menuTable[currentMenu.cursor]]
+
+    if type(currentEntry) == "function"
+    then
+        currentEntry()
+    end
 end
 
 --------------------------------------------------------------------------------
