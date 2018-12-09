@@ -6,7 +6,7 @@ local menuSystem = require("TextMenu.textMenu")
 function love.load(args, uargs)
     print("load")
 
-    menuSystem:CreateNewMenu("testMenu", menuTable, 100, 100, false)
+
 
     print("Cold Hand started \n copyright Hampus Huledal")
     print("Args: ")
@@ -28,8 +28,6 @@ function love.load(args, uargs)
         print('debuggee start ->', startResult, breakerType)
     end
 
-    print("testing debug")
-
     local menuTable = {}
         menuTable.testText = "test"
         menuTable.testNumber = 42
@@ -37,6 +35,7 @@ function love.load(args, uargs)
         love.event.quit()
     end
 
+    menuSystem:CreateNewMenu("testMenu", menuTable, 100, 100, false)
 end
 
 function love.update(deltaTime)
