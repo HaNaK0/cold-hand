@@ -2,6 +2,8 @@
 --textMenuSystem
 --copyright Hampus Huledal
 
+---------------------------------------------------------------------------------
+
 local menuSystem = {}
 
 menuSystem.menues = {}
@@ -58,32 +60,35 @@ end
 --arg 3, x position to draw the menu
 --arg 4, y position to draw the menu
 --arg 5(optional), a bool deciding weather it should draw the menu below on the stack also
-function menuSystem:CreateNewMenu(name, menuTable, x, y, letThrough)
+function menuSystem:CreateNewMenu(name, menuTable, x, y, letThrough, menuIndex)
     assert(type(name) == "string", "TXTM-1: TextMenuSystem ERROR menu name need to be string")
     assert(type(menuTable) == "table", "TXTM-2: TextMenuSystem ERROR second argument should be a table with data and functions that will represent the menu, and use the array to order it")
     letThrough = letThrough or false
 
     print("addMenu")
     local menu = {}
-    menu.menuIndex = {}
+    menu.menuIndex = menuIndex or {}
 
-    if #menuTable == 0 
+    if menuIndex == nil 
     then
-        local count = 1;
-        for key, value in pairs(menuTable)
-        do
-            menu.menuIndex[count] = key
-            count = count + 1
-        end
-    else
-        for index, value in ipairs(menuTable)
-        do
-            assert(type(value) == "string", "TXTM-4: text menu ERROR a key ind the index part of the table need to be a string")
-            menu.menuIndex[index] = vlaue
+        if #menuTable == 0 
+        then
+            local count = 1;
+            for key, value in pairs(menuTable)
+            do
+                menu.menuIndex[count] = key
+                count = count + 1
+            end
+        else
+            for index, value in ipairs(menuTable)
+            do
+                assert(type(value) == "string", "TXTM-4: text menu ERROR a key ind the index part of the table need to be a string")
+                menu.menuIndex[index] = vlaue
+            end
         end
     end
 
-    menu.size = #menuTable
+    menu.size = #menu.menuIndex
 
     menu.menuTable = menuTable
     menu.position = { x = x, y = y}
@@ -207,7 +212,7 @@ end
 function menuSystem:Activate()
     local currentMenu = self:getTopOfMenuStack()
 
-    local currentEntry = currentMenu.menuTable[currentMenu.menuTable[currentMenu.cursor]]
+    local currentEntry = currentMenu.menuTable[currentMenu.menuIndex[currentMenu.cursor]]
 
     if type(currentEntry) == "function"
     then

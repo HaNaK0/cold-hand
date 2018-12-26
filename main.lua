@@ -7,7 +7,7 @@ local miscUtil = require("Util.miscUtil")
 function love.load(args, uargs)
     print("load")
 
-    print("Cold Hand started \n Copyright Hampus Huledal")
+    print("Cold Hand started \n Copyright Hampus Huledal, heeelo")
     print("Args: ")
     --parse args and make table readonly
     --TODO: add better parsing taking arguments and checking for more
@@ -53,6 +53,10 @@ function love.keypressed(key, scancode, isrepeat )
     then
         menuSystem:Activate()
     end
+end
+
+function love.textinput(text)
+    --menuSystem:Input(text)
 end
 
 function love.draw()
