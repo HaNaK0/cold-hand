@@ -12,4 +12,8 @@ function utilFunctions.makeReadOnly(table)
     return proxy
 end
 
+function utilFunctions.AssertRequire(path)
+  return assert(require(path), "Could not find " .. path)
+end
+
 return utilFunctions.makeReadOnly(utilFunctions)
