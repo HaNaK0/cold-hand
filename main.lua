@@ -1,8 +1,9 @@
 --cold hand
 --copyright Hampus Huledal
 
-local menuSystem = assert(require("TextMenu.textMenu"), "could not find TextMenu/texMenu.lua")
 local miscUtil = assert(require("Util.miscUtil"), "could not find Util.miscUtil.lua")
+local menuSystem = miscUtil.AssertRequire("TextMenu.textMenu")
+
 
 function love.load(args, uargs)
     print("load")
@@ -22,8 +23,8 @@ function love.load(args, uargs)
     --This is if you are using visual studio code and want to debug your code using the Lua Debugger(https://marketplace.visualstudio.com/items?itemName=devCAT.lua-debug).
     if global_Args["-VSCodeDebug"]
     then
-        local json = require 'Json.dkjson'
-        local global_Debuggee = require 'Debugging.vscode-debuggee'
+        local json = miscUtil.AssertRequire('External.Json.dkjson')
+        local global_Debuggee = miscUtil.AssertRequire('External.Debugging.vscode-debuggee')
         local startResult, breakerType = global_Debuggee.start(json)
         print('debuggee start ->', startResult, breakerType)
     end
