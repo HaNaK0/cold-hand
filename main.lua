@@ -1,9 +1,7 @@
 --cold hand
 --copyright Hampus Huledal
-
-local miscUtil = assert(require("Util.miscUtil"), "could not find Util.miscUtil.lua")
-local menuSystem = miscUtil.AssertRequire("TextMenu.textMenu")
-
+assert(require("globals"), "could not require globals")
+local menuSystem = globals.Utils.AssertRequire("TextMenu.textMenu")
 
 function love.load(args, uargs)
     print("load")
@@ -18,21 +16,19 @@ function love.load(args, uargs)
         print(index .. ": " .. value)
         parsedArgs[value] = true;  
     end
-    global_Args = miscUtil.makeReadOnly(parsedArgs)
+    global_Args = globals.Utils.makeReadOnly(parsedArgs)
     
     --This is if you are using visual studio code and want to debug your code using the Lua Debugger(https://marketplace.visualstudio.com/items?itemName=devCAT.lua-debug).
     if global_Args["-VSCodeDebug"]
     then
-        local json = miscUtil.AssertRequire('External.Json.dkjson')
-        local global_Debuggee = miscUtil.AssertRequire('External.Debugging.vscode-debuggee')
+        local json = globals.Utils.AssertRequire('External.Json.dkjson')
+        local global_Debuggee = globals.Utils.AssertRequire('External.Debugging.vscode-debuggee')
         local startResult, breakerType = global_Debuggee.start(json)
         print('debuggee start ->', startResult, breakerType)
     end
 
     local menuTable = {}
-    menuTable.testText = "test"
-    menuTable.testNumber = 42
-    menuTable.testFunctionQuit = function()
+    menuTable.Quit = function()
         love.event.quit()
     end
 
