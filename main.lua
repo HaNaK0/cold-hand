@@ -1,8 +1,8 @@
 --cold hand
 --copyright Hampus Huledal
 
-local menuSystem = require("TextMenu.textMenu")
-local miscUtil = require("Util.miscUtil")
+local menuSystem = assert(require("TextMenu.textMenu"), "could not find TextMenu/texMenu.lua")
+local miscUtil = assert(require("Util.miscUtil"), "could not find Util.miscUtil.lua")
 
 function love.load(args, uargs)
     print("load")
